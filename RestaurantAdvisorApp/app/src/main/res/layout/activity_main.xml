@@ -15,7 +15,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_button"
+        android:background="#4DB6AC"
         android:text="Add restaurant"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/restolistview"

@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         add_restobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 addrestodialog.show();
             }
         });
@@ -190,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
     private void configureRetrofit()
     {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.30.50:8000/") //http://192.168.0.24:8000/
+                .baseUrl("http://172.16.14.24:8000/") //http://192.168.0.24:8000/
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         restaurantApi = retrofit.create(RestaurantApi.class);
