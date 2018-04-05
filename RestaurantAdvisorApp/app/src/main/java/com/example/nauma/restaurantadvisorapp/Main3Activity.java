@@ -49,7 +49,7 @@ public class Main3Activity extends AppCompatActivity {
     private void configureRetrofit()
     {
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.30.50:8000/")
+                .baseUrl("http://localhost:8000/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         restaurantApi = retrofit.create(RestaurantApi.class);
