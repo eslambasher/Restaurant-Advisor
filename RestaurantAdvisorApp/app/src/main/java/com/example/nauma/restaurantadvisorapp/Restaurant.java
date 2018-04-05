@@ -23,6 +23,10 @@ public class Restaurant implements Parcelable {
     @Expose
     private String note;
 
+    @SerializedName("visite")
+    @Expose
+    private String visite;
+
     @SerializedName("description")
     @Expose
     private String description;
@@ -91,6 +95,16 @@ public class Restaurant implements Parcelable {
         this.note = note;
     }
 
+    public String getVisite()
+    {
+        return visite;
+    }
+
+    public void setVisite(String visite)
+    {
+        this.visite = visite;
+    }
+
     public String getLocalisation()
     {
         return localisation;
@@ -129,6 +143,9 @@ public class Restaurant implements Parcelable {
         this.timeOpen_weekend = timeOpen_weekend;
     }
 
+    /**
+     *  Parcelable functions for passing object to another Activity
+     **/
     @Override
     public int describeContents() {
         return 0;

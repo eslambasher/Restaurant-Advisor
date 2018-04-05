@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by nauma on 29/03/2018.
  */
 
-public class Menus implements Serializable {
+public class Menus {
 
     @SerializedName("name")
     @Expose
@@ -26,12 +26,7 @@ public class Menus implements Serializable {
     @SerializedName("description")
     @Expose
     private String description;
-/*
-    public Menus(String name, String id) {
-        this.id = id;
-        this.name = name;
-    }
-*/
+
     public String getName()
     {
         return name;

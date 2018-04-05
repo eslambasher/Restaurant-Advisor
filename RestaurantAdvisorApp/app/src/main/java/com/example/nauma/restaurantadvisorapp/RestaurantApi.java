@@ -23,12 +23,25 @@ public interface RestaurantApi {
 
     @Headers({
             "Accept: application/json",
-            "Content-Type: application/x-www-form-urlencoded",
-            "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjZlMmVlYWUzNDg5NDA2MWViYWMxODc5NWNhNzFjYzJhMGY2ZTFkYjQxMGEwM2I3ZTI4YmM3ZjU4NWViOTJmOGM3NjI5MDkxMjRkNDgxMjk5In0.eyJhdWQiOiIxIiwianRpIjoiNmUyZWVhZTM0ODk0MDYxZWJhYzE4Nzk1Y2E3MWNjMmEwZjZlMWRiNDEwYTAzYjdlMjhiYzdmNTg1ZWI5MmY4Yzc2MjkwOTEyNGQ0ODEyOTkiLCJpYXQiOjE1MjI3MDQ5NjEsIm5iZiI6MTUyMjcwNDk2MSwiZXhwIjoxNTU0MjQwOTYxLCJzdWIiOiIxMSIsInNjb3BlcyI6W119.ReIylO94YE_eeyQIMpIDTPK1pruyvdz4GUKSYfvp_OT8z2vW-Yg7iPydbsdGU6BVkDaqaqQca4DvMICLQf05NLsx9cVz0yvAd8NJzxj5gw08-LW_DRCorOkH4RKWzTHRPc7iYDK-EdWT1ckff0XrJJ6uDnoj2Rr9aAn6irt0cbpsU1j9PpHrB5MH3tSOXrjyl_Rj1gET_GcxTRP9UXw__HCBDysQHXxqTtA7tywuKIew1V9wpSoYyZKmTUlITonK7ZBpzYqEb3NZWUwkhbI5HxTUTNyT9kVxnsDT3nGZZe-r_H_pTs4Zn8qWGc_fO9_3vJxBp25MSEbz3zj3ISSsck5DfyFsNgxTZyqHqAP_fLUTcsbkLax4r69p2ewY9jZjKvWSyixFKtWJlTXchGvqcmV4mn0Fwez7Q65CyfptAV19ElGzma8M8mmHbMEzZ-02uxiJVhf4Ay18UADOcO-ebQjuoko4Qf3RGUp1ePsZF8WqAiTOvGegfDxVkt4FHgaZ3kZ6h8Cb6PiyXvF0gZjzsejkZ58x8jzS5tCALRdLpHSQ80q8sbeXUPAuqNKP-YBSbrRm5hjZFMgtZ-gH_utsFEq7ekzxEX23KAz97rkRiVmOCuvQ5CtIFJ8gGPGRmk8mZizYYmat34FmN4OoM5PPjVGk8pkmd3fmFCfVRt1jHqI"
+            "Content-Type: application/x-www-form-urlencoded"
+    })
+    @GET("restaurants/getReastaurantWithSort/{sortType}/{order}")
+    Call<List<Restaurant>> getSortedRestaurants(@Path("sortType") String sortType, @Path("order") String order);
 
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/x-www-form-urlencoded"
+    })
+    @GET("restaurants/{restaurantId}")
+    Call<Restaurant> getSingleRestaurants(@Path("restaurantId") String restaurantId);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json",
+            "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjM5MmUyMDgzMGQ2YzBjOGE1NWM1MzRjYjc2MzYwODVjOGQxMmQzMGY3NTQ1NjE0Y2JlOTI4ZjAwY2NkMWUwYTBhNjhiZmVkZWU2MjhkYTM5In0.eyJhdWQiOiIxIiwianRpIjoiMzkyZTIwODMwZDZjMGM4YTU1YzUzNGNiNzYzNjA4NWM4ZDEyZDMwZjc1NDU2MTRjYmU5MjhmMDBjY2QxZTBhMGE2OGJmZWRlZTYyOGRhMzkiLCJpYXQiOjE1MjI4NTQ5NTgsIm5iZiI6MTUyMjg1NDk1OCwiZXhwIjoxNTU0MzkwOTU4LCJzdWIiOiIxMSIsInNjb3BlcyI6W119.VZL_cenLiAIqOC9Kke4XPBL9tJoIwlbfUCv-OBMNWQhuKE9DfpLdqOJw5DwbMEYQ5lx4lU3O_owGjdixFfeaY1vN1pZR0gTL7q5y0hfwWSQhZFcFa0ny3x16KtQ4h7eXpu06Kl-BEL3cLQuuHSm-e_G0tb6jsWp7QDJo_-9kwghAh7IR320dAIvjUapxQW8X4kZBu6ThpAQNfZ8f34vycSREMwPZputU_XtOtBks8l2XKa4y2-Ri13hUbRncECU-Mm7CmibqtK2oLODvss1bSzTQpTO6ObsjfjpwazSTR3XVxze6HCB-n4R3ApDLN-zf6HUD5obqdqM-h3G3eqE4HqSawoBm0FTAhPKYvjILsUUOfNIWf0NADVLLgujo3gBVJNtDaiVg3eJq9_1crak-OA0gEYcL24_wwOeBJEAE57OipvY72RA9iQo71ldBA51ZpzwlWoBYotQqrw_t9ApoXQef7rfFJYfSB3iTbWHRCyzqql4vG_yUsAb5vbP5bP8AwjfRfe6N3s66SLMVekrK3S4FPs3rdCthq2Du0Si51muuziUAZLnM1ZObud0rpO-rM6eumJgK6DkKiXIZqgev0-tABG3PyBnIqD5kQ5ilt5pZOejxyY3vN1Gnuv2zpp5rKFhnNbpCURdgIU_C4-ILUjjb3FCrIMH3j4-mKYfLz54"
     })
     @POST("restaurants")
-    Call<String> addRestaurants(@Body Restaurant restaurant);
+    Call<Restaurant> addRestaurants(@Body Restaurant restaurant);
 
     @Headers({
             "Accept: application/json",
@@ -36,4 +49,11 @@ public interface RestaurantApi {
     })
     @GET("menus/restaurants/{restaurantId}")
     Call<List<Menus>> getMenusById(@Path("restaurantId") String restaurantId);
+
+    @Headers({
+            "Accept: application/json",
+            "Content-Type: application/json"
+    })
+    @GET("comments/restaurants/{restaurantId}")
+    Call<List<Comments>> getCommentById(@Path("restaurantId") String restaurantId);
 }

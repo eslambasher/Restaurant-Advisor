@@ -2,6 +2,7 @@ package com.example.nauma.restaurantadvisorapp;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,9 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.ls.LSInput;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +63,12 @@ public class RestoListViewAdapter extends BaseAdapter implements Filterable {
         TextView textViewRestaurantId = (TextView) convertView.findViewById(R.id.restaurant_id);
         TextView textViewRestaurantNote = (TextView) convertView.findViewById(R.id.restaurant_note);
 
+        String note = restaurant.getNote();
+        if (note.equals("0.0"))
+            note = "-.-";
         textViewRestaurantName.setText(restaurant.getName());
         textViewRestaurantId.setText(restaurant.getId());
-        textViewRestaurantNote.setText(restaurant.getNote());
+        textViewRestaurantNote.setText(note);
         textViewRestaurantNote.setTextColor(Color.parseColor("#FFFFFF"));
 
         return convertView;
@@ -113,6 +120,7 @@ public class RestoListViewAdapter extends BaseAdapter implements Filterable {
                 notifyDataSetChanged();
             } else {
                 notifyDataSetInvalidated();
+                Log.d("RESULT XXXXXX", "No result in filter");
             }
         }
     }

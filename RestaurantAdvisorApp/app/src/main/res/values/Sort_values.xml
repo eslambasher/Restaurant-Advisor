@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sortSpinner">
+        <item>none</item>
+        <item>visite</item>
+        <item>note</item>
+        <item>price</item>
+    </string-array>
+</resources>

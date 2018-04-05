@@ -6,9 +6,6 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
-
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -27,6 +24,16 @@
                 android:text="Restaurant name : "
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="hint" />
+            </android.support.design.widget.TextInputLayout>
 
             <EditText
                 android:id="@+id/add_restaurant_name"
@@ -60,7 +67,7 @@
                 android:layout_marginTop="16dp"
                 android:digits="0123456789"
                 android:hint="0123456789"
-                android:inputType="number" />
+                android:inputType="phone" />
 
             <TextView
                 android:id="@+id/add_restaurant_sitelabel"
