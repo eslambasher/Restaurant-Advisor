@@ -1,0 +1,4 @@
+#Wed Apr 04 20:56:06 CEST 2018
+base.0=C\:\\Users\\nauma\\Desktop\\git_resto_app\\Restaurant-Advisor\\RestaurantAdvisorApp\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\44
+path.0=classes.dex
+renamed.0=classes.dex

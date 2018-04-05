@@ -1,0 +1,7 @@
+#Internal package file, do not edit.
+#Wed Apr 04 22:58:12 CEST 2018
+0.baseType=DIRECTORY
+0.base=C\:\\Users\\nauma\\Desktop\\git_resto_app\\Restaurant-Advisor\\RestaurantAdvisorApp\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\62
+0.path=classes.dex
+0.set=DEX
+count=1
