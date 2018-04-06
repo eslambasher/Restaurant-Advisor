@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -61,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);;
-        myToolbar.showOverflowMenu();
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         restaurants = new ArrayList<>();
 
@@ -87,37 +87,39 @@ public class MainActivity extends AppCompatActivity {
         // confirm add restaurant
         this.confimadd_restobutton = (Button) addrestodialog.findViewById(R.id.confirmrestaurant);
         confimadd_restobutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // verify values if null return Toast message
-                boolean fieldsOK = validate(new EditText[] { name,
-                        num_tel, site_web, description,
-                        localisation, timeOpen_week, timeOpen_weekend
-                });
+                @Override
+                public void onClick(View v) {
+                    // verify values if null return Toast message
+                    boolean fieldsOK = validate(new EditText[] { name,
+                            num_tel, site_web, description,
+                            localisation, timeOpen_week, timeOpen_weekend
+                    });
+                    if (fieldsOK) {
+                        Restaurant add_restaurant = new Restaurant();
+                        add_restaurant.setName(name.getText().toString().trim());
+                        add_restaurant.setNum_tel(num_tel.getText().toString().trim());
+                        add_restaurant.setNote("0.0");
+                        add_restaurant.setSite_web(site_web.getText().toString().trim());
+                        add_restaurant.setDescription(description.getText().toString().trim());
+                        add_restaurant.setLocalisation(localisation.getText().toString().trim());
+                        add_restaurant.setTimeOpen_week(timeOpen_week.getText().toString().trim());
+                        add_restaurant.setTimeOpen_weekend(timeOpen_weekend.getText().toString().trim());
 
-                if (fieldsOK) {
-                    Restaurant add_restaurant = new Restaurant();
-                    add_restaurant.setName(name.getText().toString().trim());
-                    add_restaurant.setNum_tel(num_tel.getText().toString().trim());
-                    add_restaurant.setNote("0.0");
-                    add_restaurant.setSite_web(site_web.getText().toString().trim());
-                    add_restaurant.setDescription(description.getText().toString().trim());
-                    add_restaurant.setLocalisation(localisation.getText().toString().trim());
-                    add_restaurant.setTimeOpen_week(timeOpen_week.getText().toString().trim());
-                    add_restaurant.setTimeOpen_weekend(timeOpen_weekend.getText().toString().trim());
+                        // add to database
+                        Log.d("XXXX", "getr name : " + add_restaurant.getName());
+                        Toast.makeText(getApplicationContext(), "name : " + add_restaurant.getNote(), Toast.LENGTH_SHORT).show();
 
-                    // add to database
-                    Log.d("XXXX", "getr name : " + add_restaurant.getName());
-                    Toast.makeText(getApplicationContext(), "name : " + add_restaurant.getNote(), Toast.LENGTH_SHORT).show();
-
-                    MainActivity.this.addRestaurantViaApi(add_restaurant);
+                        MainActivity.this.addRestaurantViaApi(add_restaurant);
+                    }
                 }
-            }
         });
+
         // show dialog
         SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (saved_values.getString("token", " ").isEmpty()) {
-            add_restobutton.setEnabled(true);
+        if (saved_values.getString("token", "").isEmpty()) {
+            add_restobutton.setEnabled(false);
+        } else {
+            ckeckTocken();
         }
 
         add_restobutton.setOnClickListener(new View.OnClickListener() {
@@ -176,10 +178,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void ckeckTocken() {
+        Button button = (Button) findViewById(R.id.SignUpOrSignIn);
+        button.setText("Log out");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor edit = saved_values.edit();
+                edit.clear();
+                edit.apply();
+                finish();
+                startActivity(getIntent());
+            }
+        });
+    }
+
     private void startMain2Activity(Restaurant restaurant) {
         Intent intent = new Intent(this,Main2Activity.class);
         intent.putExtra("restaurant", restaurant);
-
         startActivity(intent);
     }
 
@@ -189,7 +206,6 @@ public class MainActivity extends AppCompatActivity {
             if(currentField.getText().toString().length() <= 0){
                 Log.d("XXXXX", "Please complete all fileds !");
                 Toast.makeText(this, "Please complete all fileds !", Toast.LENGTH_SHORT).show();
-
                 return false;
             }
         }
@@ -248,4 +264,7 @@ public class MainActivity extends AppCompatActivity {
        });
     }
 
+    public void GoToSignIn(View view) {
+        startActivity(new Intent(this, LoginActivity.class));
+    }
 }
