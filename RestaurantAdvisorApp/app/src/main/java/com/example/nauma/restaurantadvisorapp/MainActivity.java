@@ -257,7 +257,7 @@ MainActivity extends AppCompatActivity {
         httpClient.addInterceptor(logging);
 
         retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.62.2:8000/") //http://192.168.0.24:8000/ //http://172.16.30.50:8000/
+                .baseUrl("http://172.16.14.61:8000/") //http://192.168.0.24:8000/ //http://172.16.30.50:8000/
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();

@@ -77,6 +77,45 @@
         app:layout_constraintVertical_bias="0.013" />
 
     <TextView
+        android:id="@+id/textView2"
+        android:layout_width="91dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:text="Sort by:"
+        android:textAlignment="center"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/restaurant_spinner" />
+
+    <Spinner
+        android:id="@+id/restaurant_spinner"
+        android:layout_width="276dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:entries="@array/sortSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <ListView
+        android:id="@+id/restolistview"
+        android:layout_width="369dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_spinner"
+        app:layout_constraintVertical_bias="0.47"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
         android:id="@+id/getrestauranterror"
         android:layout_width="334dp"
         android:layout_height="43dp"
@@ -119,44 +158,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/restolistview"
         app:layout_constraintVertical_bias="0.127" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="91dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:gravity="center_vertical"
-        android:text="Sort by:"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/restaurant_spinner" />
-
-    <Spinner
-        android:id="@+id/restaurant_spinner"
-        android:layout_width="276dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
-        android:entries="@array/sortSpinner"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <ListView
-        android:id="@+id/restolistview"
-        android:layout_width="369dp"
-        android:layout_height="300dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/restaurant_spinner"
-        app:layout_constraintVertical_bias="0.47"
-        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>

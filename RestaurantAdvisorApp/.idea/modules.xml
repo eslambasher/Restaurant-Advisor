@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RestaurantAdvisorApp.iml" filepath="$PROJECT_DIR$/RestaurantAdvisorApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\nauma\Desktop\application\Restaurant-Advisor\RestaurantAdvisorApp\app\app.iml" filepath="C:\Users\nauma\Desktop\application\Restaurant-Advisor\RestaurantAdvisorApp\app\app.iml" />
     </modules>
   </component>
 </project>
