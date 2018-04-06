@@ -55,10 +55,12 @@ public class MenuListViewAdapter extends BaseAdapter {
 
         TextView textViewMenusName = (TextView) convertView.findViewById(R.id.menus_name);
         TextView textViewMenusPrice = (TextView) convertView.findViewById(R.id.menus_price);
+        TextView textViewMenusDescription = (TextView) convertView.findViewById(R.id.menus_description);
 
         String price = menus.getPrice() + " €";
         textViewMenusName.setText(menus.getName());
         textViewMenusPrice.setText(price);
+        textViewMenusDescription.setText(menus.getDescription());
 
         return convertView;
     }

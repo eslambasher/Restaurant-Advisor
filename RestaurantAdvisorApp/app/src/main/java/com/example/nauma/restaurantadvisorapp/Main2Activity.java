@@ -142,7 +142,7 @@ public class Main2Activity extends AppCompatActivity {
         addcommentdialog.setContentView(R.layout.add_comment);
         addcommentdialog.setTitle("Ajouter un commentaire");
         addcomment = findViewById(R.id.opencommentdialog);
-        comment = (EditText) findViewById(R.id.usercomment);
+        EditText comment = (EditText) addcommentdialog.findViewById(R.id.usercomment);
         confirmaddcomment = addcommentdialog.findViewById(R.id.addcommentbutton);
         closecommentdialog = addcommentdialog.findViewById(R.id.cancelcommentdialog);
         confirmaddcomment.setOnClickListener(new View.OnClickListener() {
@@ -156,11 +156,12 @@ public class Main2Activity extends AppCompatActivity {
                     comment1.setComment(comment.getText().toString().trim());
                     comment1.setRestaurant_id(restaurantId);
                     comment1.setUser_id("1");
+                    Log.d("test", "comment get : " + comment1.getComment() );
+
                     Main2Activity.this.addCommentViaApi(comment1);
                 }
             }
         });
-
 
         // show add comment dialog
         addcomment.setOnClickListener(new View.OnClickListener() {

@@ -8,6 +8,28 @@
     tools:context="com.example.nauma.restaurantadvisorapp.MainActivity"
     tools:layout_editor_absoluteY="81dp">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <Button
+            android:id="@+id/SignUpOrSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:background="@color/colorPrimary"
+            android:onClick="GoToSignIn"
+            android:text="@string/action_sign_in"
+            android:textColor="@android:color/white"
+            tools:layout_editor_absoluteX="281dp"
+            tools:layout_editor_absoluteY="13dp" />
+    </android.support.v7.widget.Toolbar>
+
     <Button
         android:id="@+id/add_restaurantbutton"
         android:layout_width="174dp"

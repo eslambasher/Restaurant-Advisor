@@ -2,6 +2,8 @@ package com.example.nauma.restaurantadvisorapp;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -81,6 +84,12 @@ MainActivity extends AppCompatActivity {
         // sort selector
         Spinner restaurant_spinner = findViewById(R.id.restaurant_spinner);
 
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (saved_values.getString("token", "").isEmpty()) {
+            add_restobutton.setEnabled(false);
+        } else {
+            ckeckTocken();
+        }
         restaurantApi = new ConfigRetrofit().configureRetrofit("");
         this.getSorted(restaurant_spinner);
         //progressBar && error
@@ -207,6 +216,26 @@ MainActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    private void ckeckTocken() {
+        Button button = (Button) findViewById(R.id.SignUpOrSignIn);
+        button.setText("Log out");
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor edit = saved_values.edit();
+                edit.clear();
+                edit.apply();
+                finish();
+                startActivity(getIntent());
+            }
+        });
+    }
+
+    public void GoToSignIn(View view) {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     private void getSorted(final Spinner spinner)

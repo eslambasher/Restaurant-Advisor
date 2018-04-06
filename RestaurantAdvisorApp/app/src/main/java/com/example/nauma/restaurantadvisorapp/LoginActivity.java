@@ -3,22 +3,26 @@ package com.example.nauma.restaurantadvisorapp;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.app.LoaderManager.LoaderCallbacks;
+
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import java.util.regex.*;
+
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -29,24 +33,33 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.READ_CONTACTS;
-import static android.content.SharedPreferences.Editor;
+import static android.content.SharedPreferences.*;
 
-public class LoginActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
     private static final int REQUEST_READ_CONTACTS = 0;
 
@@ -66,9 +79,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Log.d(TAG, "DATA: "+  saved_values.getString("token", " "));
         setContentView(R.layout.activity_login);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         // Set up the login form.
         mEmailView =  findViewById(R.id.email);
         populateAutoComplete();
@@ -102,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new OnClickListener() {
+                    .setAction(android.R.string.ok, new View.OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
                         public void onClick(View v) {
@@ -275,7 +288,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                     if (!response.body().getToken().isEmpty())
                     {
                         SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                        Editor editor=saved_values.edit();
+                        SharedPreferences.Editor editor=saved_values.edit();
                         editor.putString("token",response.body().getToken());
                         editor.apply();
                     }
@@ -318,4 +331,3 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         });
     }
 }
-
