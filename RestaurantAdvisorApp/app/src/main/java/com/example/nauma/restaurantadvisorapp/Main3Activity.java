@@ -41,7 +41,7 @@ public class Main3Activity extends AppCompatActivity {
         menusListViewAdapter = new MenuListViewAdapter(getApplicationContext(), allmenus);
         menuslistview.setAdapter(menusListViewAdapter);
 
-        restaurantApi = new ConfigRetrofit().configureRetrofit();
+        restaurantApi = new ConfigRetrofit().configureRetrofit("");
         this.getMenuViaApi(restaurantId);
     }
 

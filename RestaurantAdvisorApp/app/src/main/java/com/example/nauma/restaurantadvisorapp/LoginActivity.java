@@ -78,8 +78,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Log.d(TAG, "DATA: "+  saved_values.getString("token", " "));
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView =  findViewById(R.id.email);
@@ -175,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView.requestFocus();
         } else {
             showProgress(true);
-            restaurantApi = new ConfigRetrofit().configureRetrofit();
+            restaurantApi = new ConfigRetrofit().configureRetrofit("");
             mAuthTask = new UserClass(email, password, "","", "" , "", "");
             this.loginFun(mAuthTask, this, focusView);
         }

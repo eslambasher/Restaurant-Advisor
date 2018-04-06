@@ -6,34 +6,31 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConfigRetrofit {
-    private static final String Url = "http://10.188.182.218:8000/";
+    private static final String Url = "http://172.16.14.24:8000/";
 
-    public RestaurantApi configureRetrofit(String header)
+    public RestaurantApi configureRetrofit(final String token)
     {
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        if (!header.isEmpty()) {
+        if (!token.isEmpty()) {
             httpClient.addInterceptor(new Interceptor() {
                 @Override
-                public Response intercept(Interceptor.Chain chain) throws IOException {
+                public okhttp3.Response intercept(Chain chain) throws IOException {
                     Request original = chain.request();
-
                     Request request = original.newBuilder()
-                            .header("Aut", "Your-App-Name")
+                            .header("Authorization", token)
                             .method(original.method(), original.body())
                             .build();
 
                     return chain.proceed(request);
-                });
-            };
-        }
-
+                }});
+            } else
+                httpClient.addInterceptor(logging);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(Url)
                 .addConverterFactory(GsonConverterFactory.create())

@@ -2,15 +2,20 @@ package com.example.nauma.restaurantadvisorapp;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -56,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);;
+        myToolbar.showOverflowMenu();
+        setSupportActionBar(myToolbar);
         restaurants = new ArrayList<>();
 
         this.restolist = (ListView) findViewById(R.id.restolistview);
@@ -108,6 +115,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         // show dialog
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (saved_values.getString("token", " ").isEmpty()) {
+            add_restobutton.setEnabled(true);
+        }
+
         add_restobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       restaurantApi = new ConfigRetrofit().configureRetrofit();
+       restaurantApi = new ConfigRetrofit().configureRetrofit(saved_values.getString("token", " "));
        this.getRestaurantViaApi();
 
         restolist.setOnItemClickListener(new AdapterView.OnItemClickListener() {

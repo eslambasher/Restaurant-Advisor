@@ -154,7 +154,7 @@ public class SignUp extends AppCompatActivity {
         if (cancel) focusView.requestFocus();
         else {
             showProgress(true);
-            restaurantApi = new ConfigRetrofit().configureRetrofit();
+            restaurantApi = new ConfigRetrofit().configureRetrofit("");
             mAuthTask = new UserClass(email, password, c_password, UserName, name,lastName,age);
             this.signUpFun();
         }
