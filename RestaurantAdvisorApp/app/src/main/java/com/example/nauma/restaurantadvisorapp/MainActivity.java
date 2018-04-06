@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static RestaurantApi restaurantApi;
 
-    private Retrofit retrofit;
-
     private ListView restolist;
     private EditText searchInput;
     private SearchView searchView;
@@ -154,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       this.configureRetrofit();
+       restaurantApi = new ConfigRetrofit().configureRetrofit();
        this.getRestaurantViaApi();
 
         restolist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -184,15 +182,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return true;
-    }
-
-    private void configureRetrofit()
-    {
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.14.24:8000/") //http://192.168.0.24:8000/
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        restaurantApi = retrofit.create(RestaurantApi.class);
     }
 
     private void getRestaurantViaApi()
@@ -232,7 +221,6 @@ public class MainActivity extends AppCompatActivity {
                    Log.d(TAG, "The restaurant was added");
                    Log.d(TAG, "Onresponse: " + response.body().toString());
                    Toast.makeText(getApplicationContext(), "The restaurant was added", Toast.LENGTH_SHORT).show();
-
                }
                else {
                    Log.d(TAG, "Cannot add the restaurant");
@@ -240,7 +228,6 @@ public class MainActivity extends AppCompatActivity {
                    Toast.makeText(getApplicationContext(), "Cannot add the restaurant", Toast.LENGTH_SHORT).show();
                }
            }
-
            @Override
            public void onFailure(Call<String> call, Throwable t) {
                Toast.makeText(getApplicationContext(), "There was internel Error on ths Server cannot get restaurant", Toast.LENGTH_LONG).show();
