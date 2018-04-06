@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Scroller;
@@ -56,6 +57,7 @@ public class Main2Activity extends AppCompatActivity {
     private TextView totalcomments;
     private Dialog addcommentdialog;
     private TextView addcomment;
+    private EditText comment;
     private Button confirmaddcomment;
     private Button closecommentdialog;
 
@@ -140,8 +142,25 @@ public class Main2Activity extends AppCompatActivity {
         addcommentdialog.setContentView(R.layout.add_comment);
         addcommentdialog.setTitle("Ajouter un commentaire");
         addcomment = findViewById(R.id.opencommentdialog);
+        comment = (EditText) findViewById(R.id.usercomment);
         confirmaddcomment = addcommentdialog.findViewById(R.id.addcommentbutton);
         closecommentdialog = addcommentdialog.findViewById(R.id.cancelcommentdialog);
+        confirmaddcomment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(comment.getText().toString().length() <= 0){
+                    Toast.makeText(getApplicationContext(), "Please complete all fileds !", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Comments comment1 = new Comments();
+                    comment1.setComment(comment.getText().toString().trim());
+                    comment1.setRestaurant_id(restaurantId);
+                    comment1.setUser_id("1");
+                    Main2Activity.this.addCommentViaApi(comment1);
+                }
+            }
+        });
+
 
         // show add comment dialog
         addcomment.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +178,7 @@ public class Main2Activity extends AppCompatActivity {
             }
         });
 
-        this.configureRetrofit();
+        restaurantApi = new ConfigRetrofit().configureRetrofit("");
         this.getSingleRestaurant(restaurantId);
         this.getCommentsViaApi(restaurantId);
     }
@@ -169,15 +188,6 @@ public class Main2Activity extends AppCompatActivity {
         intent.putExtra("restaurantid", restaurantId);
 
         startActivity(intent);
-    }
-
-    private void configureRetrofit()
-    {
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.14.61:8000/") //http://192.168.0.24:8000/ //http://172.16.30.50:8000/
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        restaurantApi = retrofit.create(RestaurantApi.class);
     }
 
     private void getSingleRestaurant(final String restaurantId) {
@@ -232,10 +242,10 @@ public class Main2Activity extends AppCompatActivity {
         });
     }
 
-    private void addCommentViaApi(final Restaurant restaurant) {
-        restaurantApi.addRestaurants(restaurant).enqueue(new Callback<Restaurant>() {
+    private void addCommentViaApi(final Comments comment) {
+        restaurantApi.addComment(comment).enqueue(new Callback<Comments>() {
             @Override
-            public void onResponse(Call<Restaurant> call, Response<Restaurant> response) {
+            public void onResponse(Call<Comments> call, Response<Comments> response) {
                 if(response.code() == 201) {
                     // Update listview
                     allComments.clear();
@@ -263,7 +273,7 @@ public class Main2Activity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Restaurant> call, Throwable t) {
+            public void onFailure(Call<Comments> call, Throwable t) {
                 Log.d(TAG, "onFailure: " + t.getMessage());
                 Toast.makeText(getApplicationContext(), "Internal error: Cannot add the restaurant.", Toast.LENGTH_SHORT).show();
             }

@@ -81,7 +81,7 @@ MainActivity extends AppCompatActivity {
         // sort selector
         Spinner restaurant_spinner = findViewById(R.id.restaurant_spinner);
 
-        this.configureRetrofit();
+        restaurantApi = new ConfigRetrofit().configureRetrofit("");
         this.getSorted(restaurant_spinner);
         //progressBar && error
         progressrestaurant = (ProgressBar) findViewById(R.id.progressgetrestaurant);
@@ -182,8 +182,6 @@ MainActivity extends AppCompatActivity {
             }
         });
 
-       //this.getRestaurantViaApi();
-
         restolist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -245,24 +243,6 @@ MainActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void configureRetrofit()
-    {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        // Get Resquest in logs
-        httpClient.addInterceptor(logging);
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.14.61:8000/") //http://192.168.0.24:8000/ //http://172.16.30.50:8000/
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(httpClient.build())
-                .build();
-
-        restaurantApi = retrofit.create(RestaurantApi.class);
     }
 
     private void getRestaurantViaApi()

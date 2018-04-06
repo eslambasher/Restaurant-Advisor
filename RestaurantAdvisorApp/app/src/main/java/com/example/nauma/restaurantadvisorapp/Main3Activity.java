@@ -48,17 +48,8 @@ public class Main3Activity extends AppCompatActivity {
         menusListViewAdapter = new MenuListViewAdapter(getApplicationContext(), allmenus);
         menuslistview.setAdapter(menusListViewAdapter);
 
-        this.configureRetrofit();
+        restaurantApi = new ConfigRetrofit().configureRetrofit("");
         this.getMenuViaApi(restaurantId);
-    }
-
-    private void configureRetrofit()
-    {
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://172.16.14.61:8000/") //http://192.168.0.24:8000/ //http://172.16.30.50:8000/
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        restaurantApi = retrofit.create(RestaurantApi.class);
     }
 
     private void getMenuViaApi(String Id)
