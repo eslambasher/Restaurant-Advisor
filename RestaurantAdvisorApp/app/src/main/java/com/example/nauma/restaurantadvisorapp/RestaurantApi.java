@@ -25,8 +25,8 @@ public interface RestaurantApi {
             "Accept: application/json",
             "Content-Type: application/x-www-form-urlencoded"
     })
-    @GET("restaurants/getReastaurantWithSort/{sortType}/{order}")
-    Call<List<Restaurant>> getSortedRestaurants(@Path("sortType") String sortType, @Path("order") String order);
+    @GET("restaurants/getReastaurantWithSort/{sortType}")
+    Call<List<Restaurant>> getSortedRestaurants(@Path("sortType") String sortType);
 
     @Headers({
             "Accept: application/json",

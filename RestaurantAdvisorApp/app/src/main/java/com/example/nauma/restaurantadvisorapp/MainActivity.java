@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class
+MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private static RestaurantApi restaurantApi;
@@ -77,9 +79,10 @@ public class MainActivity extends AppCompatActivity {
         this.add_restobutton = (Button) findViewById(R.id.add_restaurantbutton);
 
         // sort selector
-        //Spinner restaurant_spinner = findViewById(R.id.restaurant_spinner);
-        //Spinner order_spinner = findViewById(R.id.orderSpinner);
+        Spinner restaurant_spinner = findViewById(R.id.restaurant_spinner);
 
+        this.configureRetrofit();
+        this.getSorted(restaurant_spinner);
         //progressBar && error
         progressrestaurant = (ProgressBar) findViewById(R.id.progressgetrestaurant);
         restauranterror = (TextView) findViewById(R.id.getrestauranterror);
@@ -170,7 +173,6 @@ public class MainActivity extends AppCompatActivity {
                         filtertoast.show();
                     else
                         filtertoast.cancel();
-                    Log.d("filter", "filter available");
                 }
             }
 
@@ -180,8 +182,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-       this.configureRetrofit();
-       this.getRestaurantViaApi();
+       //this.getRestaurantViaApi();
 
         restolist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -208,6 +209,42 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    private void getSorted(final Spinner spinner)
+    {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+               String Itemvalue = spinner.getSelectedItem().toString();
+               String value = spinner.getSelectedItem().toString().replace(" (Desc)", "");
+
+               //clear listview
+               restaurants.clear();
+               restoListViewAdapter = null;
+               restolist.setAdapter(null);
+
+               switch (Itemvalue) {
+                   case "none" :
+                       MainActivity.this.getRestaurantViaApi();
+                       break;
+                   case "visite (Desc)" :
+                       MainActivity.this.getSortedRestaurants(value);
+                       break;
+                   case "note (Desc)" :
+                       MainActivity.this.getSortedRestaurants(value);
+                       break;
+                   case "price (Desc)" :
+                       MainActivity.this.getSortedRestaurants(value);
+                       break;
+               }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void configureRetrofit()
@@ -265,14 +302,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     // Sort function
-/*
-    private void getSortedRestaurants(String SortedType, String order)
+    private void getSortedRestaurants(String SortedType)
     {
         progressrestaurant.setVisibility(View.VISIBLE);
         restauranterror.setVisibility(View.GONE);
         tryagainrestaurant.setVisibility(View.GONE);
-        restaurantApi.getSortedRestaurants(SortedType, order).enqueue(new Callback<List<Restaurant>>() {
+        restaurantApi.getSortedRestaurants(SortedType).enqueue(new Callback<List<Restaurant>>() {
             @Override
             public void onResponse(Call<List<Restaurant>> call, Response<List<Restaurant>> response) {
                 List<Restaurant> restaurantList1 = response.body();
@@ -302,7 +339,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "There was internal Error on ths Server cannot get restaurants", Toast.LENGTH_SHORT).show();
             }
         });
-    }*/
+    }
 
     private void addRestaurantViaApi(final Restaurant restaurant) {
         restaurantApi.addRestaurants(restaurant).enqueue(new Callback<Restaurant>() {

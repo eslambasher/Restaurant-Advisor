@@ -2,8 +2,8 @@
 <resources>
     <string-array name="sortSpinner">
         <item>none</item>
-        <item>visite</item>
-        <item>note</item>
-        <item>price</item>
+        <item>visite (Desc)</item>
+        <item>note (Desc)</item>
+        <item>price (Desc)</item>
     </string-array>
 </resources>
