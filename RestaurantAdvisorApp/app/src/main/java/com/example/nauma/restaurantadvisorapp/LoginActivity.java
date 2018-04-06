@@ -5,7 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +56,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static android.content.SharedPreferences.*;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
 
@@ -62,18 +65,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private UserClass mAuthTask = null;
 
     // UI references.
+    public static final String MyPREFERENCES = "CheckSession" ;
+    SharedPreferences sharedpreferences;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
     private View mLayoutText;
-    private Retrofit retrofit;
     private static RestaurantApi restaurantApi;
     private static final String TAG = "LoginActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Log.d(TAG, "DATA: "+  saved_values.getString("token", " "));
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView =  findViewById(R.id.email);
@@ -89,6 +95,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         mLayoutText = findViewById(R.id.LayoutText);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
     }
 
     private void populateAutoComplete() {
@@ -276,8 +283,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         restaurantApi.loginUser(userClass).enqueue(new Callback<UserClass>() {
             @Override
             public void onResponse(Call<UserClass> call, Response<UserClass> response) {
-                if (response.isSuccessful())
-                    setContentView(R.layout.activity_main);
+                if (response.isSuccessful()) {
+                    if (!response.body().getToken().isEmpty())
+                    {
+                        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor=saved_values.edit();
+                        editor.putString("token",response.body().getToken());
+                        editor.apply();
+                    }
+                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                }
                 else {
                     showProgress(false);
                     if (response.code() ==  422) {
@@ -307,6 +322,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             @Override
             public void onFailure(Call<UserClass> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
                 Toast.makeText(getApplicationContext(), "Connected Errors !", Toast.LENGTH_SHORT).show();
                 mAuthTask = null;
                 showProgress(false);

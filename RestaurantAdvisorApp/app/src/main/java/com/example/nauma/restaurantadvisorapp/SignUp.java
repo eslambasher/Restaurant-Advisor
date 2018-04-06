@@ -213,7 +213,7 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserClass> call, Response<UserClass> response) {
                 if(response.isSuccessful()) {
-                    setContentView(R.layout.activity_main);
+                    startActivity(new Intent(SignUp.this,MainActivity.class));
                 } else {
                     Toast.makeText(getApplicationContext(), "Action was not successful", Toast.LENGTH_SHORT).show();
                     mAuthTask = null;
