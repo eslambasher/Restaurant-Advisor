@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -80,7 +82,7 @@ public class SignUp extends AppCompatActivity {
 
         mSignUpFormView = findViewById(R.id.signUp_form);
         mProgressView = findViewById(R.id.signUp_progress);
-        mLastNameView = findViewById(R.id.LayoutText);
+        mLayoutText = findViewById(R.id.LayoutText);
     }
 
     private void setErrors() {
@@ -154,7 +156,7 @@ public class SignUp extends AppCompatActivity {
         if (cancel) focusView.requestFocus();
         else {
             showProgress(true);
-            restaurantApi = new ConfigRetrofit().configureRetrofit();
+            restaurantApi = new ConfigRetrofit().configureRetrofit("");
             mAuthTask = new UserClass(email, password, c_password, UserName, name,lastName,age);
             this.signUpFun();
         }
@@ -213,6 +215,13 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserClass> call, Response<UserClass> response) {
                 if(response.isSuccessful()) {
+                    if (!response.body().getToken().isEmpty())
+                    {
+                        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                        SharedPreferences.Editor editor=saved_values.edit();
+                        editor.putString("token",response.body().getToken());
+                        editor.apply();
+                    }
                     startActivity(new Intent(SignUp.this,MainActivity.class));
                 } else {
                     Toast.makeText(getApplicationContext(), "Action was not successful", Toast.LENGTH_SHORT).show();

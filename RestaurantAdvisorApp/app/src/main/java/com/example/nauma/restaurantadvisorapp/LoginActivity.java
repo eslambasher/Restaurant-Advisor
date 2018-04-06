@@ -22,6 +22,7 @@ import java.util.regex.*;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -78,9 +79,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences saved_values = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        Log.d(TAG, "DATA: "+  saved_values.getString("token", " "));
         setContentView(R.layout.activity_login);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         // Set up the login form.
         mEmailView =  findViewById(R.id.email);
         populateAutoComplete();
@@ -175,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView.requestFocus();
         } else {
             showProgress(true);
-            restaurantApi = new ConfigRetrofit().configureRetrofit();
+            restaurantApi = new ConfigRetrofit().configureRetrofit("");
             mAuthTask = new UserClass(email, password, "","", "" , "", "");
             this.loginFun(mAuthTask, this, focusView);
         }
